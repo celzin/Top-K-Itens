@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include "hash_table.hpp"
 
 class Heap {
 public:
@@ -17,3 +18,5 @@ private:
     std::vector<std::pair<std::string, int>> elements;
 };
 
+void fill_heap_with_top_elements(Heap &heap, const HashTable &hash_table);
+void print_top_k_words(const Heap &heap);

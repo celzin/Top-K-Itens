@@ -49,3 +49,21 @@ int Heap::right_child_index(int index) const {
 int Heap::parent_index(int index) const {
     return (index - 1) / 2;
 }
+
+void fill_heap_with_top_elements(Heap &heap, const HashTable &hash_table) {
+    auto elements = hash_table.get_all_elements();
+    for (const auto &element : elements) {
+        heap.insert(element);
+    }
+}
+
+void print_top_k_words(const Heap &heap) {
+    std::cout << "--------------------------------------------------------" << std::endl;
+    std::cout << "Palavra" << std::setw(5) << "\t" << "Frequência" << std::endl;
+    std::cout << "--------------------------------------------------------" << std::endl;
+
+    auto top_k = heap.get_top_k();
+    for (const auto &element : top_k) {
+        std::cout << element.first << std::setw(8) << "\t" << element.second << std::endl;
+    }
+}

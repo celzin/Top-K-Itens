@@ -91,3 +91,11 @@ void process_files(const std::string &directory, const std::set<std::string> &st
         }
     }
 }
+
+std::set<std::string> initialize_stopwords(const std::string &path) {
+    return load_stopwords(path);
+}
+
+void process_dataset(const std::string &path, const std::set<std::string> &stopwords, HashTable &hash_table) {
+    process_files(path, stopwords, hash_table);
+}

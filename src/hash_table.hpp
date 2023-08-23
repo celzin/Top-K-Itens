@@ -31,4 +31,7 @@ private:
 std::set<std::string> load_stopwords(const std::string &filename);
 void process_files(const std::string &directory, const std::set<std::string> &stopwords, HashTable &hash_table);
 
+std::set<std::string> initialize_stopwords(const std::string &path);
+void process_dataset(const std::string &path, const std::set<std::string> &stopwords, HashTable &hash_table);
+
 #endif  // HASH_TABLE_HPP
