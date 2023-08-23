@@ -2,11 +2,18 @@
 
 namespace fs = std::filesystem;
 
+std::string remove_em_dash(const std::string &input) {
+    std::string result = input;
+    size_t pos;
+    while ((pos = result.find("—")) != std::string::npos) {
+        result.erase(pos, strlen("—"));
+    }
+    return result;
+}
+
 std::string clean_word(const std::string &word) {
-    std::string cleaned_word;
-    std::copy_if(word.begin(), word.end(), std::back_inserter(cleaned_word), [](char c) {
-        return std::isalpha(c);
-    });
+    static const std::regex pattern("[^a-zA-ZáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛãõñÑçÇüÜ]");
+    std::string cleaned_word = std::regex_replace(word, pattern, "");
     std::transform(cleaned_word.begin(), cleaned_word.end(), cleaned_word.begin(), ::tolower);
     return cleaned_word;
 }
@@ -52,7 +59,6 @@ size_t HashTable::hash(const std::string &key) const {
     return hash;
 }
 
-// ... outras definições ...
 std::set<std::string> load_stopwords(const std::string &filename) {
     std::set<std::string> stopwords;
     std::ifstream stopwords_file(filename);
@@ -74,8 +80,9 @@ void process_files(const std::string &directory, const std::set<std::string> &st
                 std::istringstream iss(line);
                 std::string word;
                 while (iss >> word) {
+                    word = remove_em_dash(word);
                     word = clean_word(word);
-                    if (stopwords.find(word) == stopwords.end()) {
+                    if (!word.empty() && stopwords.find(word) == stopwords.end()) {
                         hash_table.insert(word);
                     }
                 }

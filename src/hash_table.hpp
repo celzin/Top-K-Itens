@@ -20,6 +20,7 @@ public:
     void insert(const std::string &key);
     int get_frequency(const std::string &key) const;
     std::vector<std::pair<std::string, int>> get_all_elements() const;
+    std::string remove_em_dash(const std::string &input);
 
 private:
     size_t hash(const std::string &key) const;
