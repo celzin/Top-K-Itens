@@ -41,58 +41,37 @@ Esse algoritmo deve ser uma combinação eficiente do uso de hash para contar a 
 
 ## Hash
 
-<div align="justify">
-	
-O algoritmo fornecido utiliza a estrutura <code>std::unordered_map</code>, para implementação da tabela hash em C++, essa estrutura usa uma combinação de técnicas matemáticas e algorítmicas para garantir uma distribuição eficiente dos dados e uma recuperação rápida.
-
-1. **Função Hash:** A função hash usada pelo <code>std::unordered_map</code> pode variar dependendo do compilador e da biblioteca padrão usada. No caso de strings, cenário atual, a função hash considera os valores ASCII dos caracteres, utilizando o método do valor polinomial, também conhecido como [Horner's method](https://en.wikipedia.org/wiki/Horner%27s_method)
-
-2. **Tratamento de Colisões:** O <code>std::unordered_map</code> lida com as colisões usando o método de encadeamento. Neste método, cada entrada na tabela de hash mantém uma lista de todos os pares chave-valor que têm o mesmo valor hash. Assim, se duas chaves têm o mesmo valor hash, elas são armazenadas na mesma entrada, mas são mantidas como elementos separados na lista.
-
-3. **Inserção e Fator de Carga:** No código em análise, não é especificado explicitamente um tamanho inicial mas quando inserimos uma chave-valor na tabela hash, verificamos o fator de carga atual. Se o fator de carga exceder um certo limite (por exemplo, 0,7), redimensionamos a tabela hash.
-
-4. **Redimensionamento:** Redimensionamos a tabela hash aumentando o número de baldes (por exemplo, dobrando o tamanho). Recalculamos os valores de hash para todas as chaves existentes usando a função hash de Horner e inserimos cada chave na nova posição apropriada na tabela hash redimensionada.
-
-5. **Busca e Deleção:** Quando buscamos ou excluímos uma chave, calculamos seu valor de hash usando a função hash de Horner para determinar a posição na tabela hash.
-
-</div>
-
-### Cálculo da Hash:
+### Função Hash
 
 <div align="justify">
-	
-No caso analisado o cálculo do valor hash para strings é o método do valor polinomial, também nomeado como [hash de Horner](https://en.wikipedia.org/wiki/Horner%27s_method) Vejamos o passo a passo de como a função hash de Horner, também conhecida como hash polinomial é implementada. 
-	
-- Neste método, cada caractere da string é tratado como um coeficiente polinomial, e um valor de hash é calculado de acordo com um polinômio.
 
-1. **Escolha uma base e um módulo:** A base é um número que é multiplicado pelo valor de hash a cada iteração. O módulo é um número grande usado para evitar o overflow. A base é geralmente um número primo, como 31, e o módulo é frequentemente um número primo grande, como 1'000'000'007.
+A função adotada usa um método popular e simples para strings, multiplicando o valor hash acumulado por um número primo (31 neste caso) e adicionando o valor ASCII do próximo caractere da string. Isso ajuda a distribuir as strings uniformemente no espaço do hash. O operador `% size` garante que o valor retornado estará dentro dos limites da tabela hash.
 
-2. **Inicialize o valor de hash:** O valor inicial do hash é definido como 0.
-
-3. **Processe cada caractere da string:** Percorra a string caractere por caractere e atualize o valor de hash a cada iteração.
-
-4. **Atualize o valor de hash:** A cada iteração, atualize o valor de hash usando a fórmula:
-
-```
-'hash_value = (base * hash_value + c) % modulo'
-```
-
-- Onde 'base' é a base escolhida, 'hash_value' é o valor atual do hash, 'c' é o valor ASCII do caractere atual, e 'modulo' é o módulo escolhido.
-
-Aqui está um exemplo de código em C++ para a função hash de Horner:
-
-```c++
-const size_t base = 31;
-const size_t modulo = 1'000'000'007;
-
-size_t horner_hash(const std::string &str) {
-    size_t hash_value = 0;
-    for (char c : str) {
-        hash_value = (base * hash_value + c) % modulo;
+```C
+size_t HashTable::hash(const std::string &key) const {
+    size_t hash = 0;
+    for (char c : key) {
+        hash = (hash * 31 + c) % size;
     }
-    return hash_value;
+    return hash;
 }
 ```
+
+2. **Tratamento de Colisões:** A colisão é tratada usando **Encadeamento**. Cada índice na tabela hash armazena uma lista (neste caso, um `std::vector`) de pares chave-valor. Se duas chaves diferentes tiverem o mesmo valor hash, elas serão armazenadas na mesma posição da tabela, mas em posições diferentes do vetor. Se a chave não existe, ela é adicionada com uma contagem de 1.
+
+3. **Inserção:** Ao inserir uma nova chave:
+    - Primeiro, a função hash é usada para determinar o índice na tabela. 
+    - Se a chave já existe na posição correspondente, sua contagem/frequência é aumentada.
+    - Se a chave não existe, ela é adicionada com uma contagem de 1.
+
+4. **Busca:** Para buscar a frequência de uma chave:
+    - A função hash é usada para determinar o índice na tabela. 
+    - A posição correspondente é verificada para encontrar a chave desejada e retornar sua contagem.
+    - Se a chave não é encontrada, a função retorna 0, indicando que a chave não foi inserida na tabela.
+
+5. **Complexidade:** Em teoria, a busca, inserção e exclusão em uma tabela hash têm uma complexidade de tempo médio de O(1). No entanto, no pior caso (quando todas as chaves colidem), a complexidade pode degradar para O(n), onde n é o número de chaves.
+
+    No entanto, o encadeamento (como o método de tratamento de colisões) ajuda a reduzir o impacto das colisões. Na prática, se a função hash estiver bem projetada e a tabela hash tiver um bom tamanho (não muito pequeno em relação ao número de entradas), as operações tendem a permanecer muito rápidas.
 
 </div>
 
@@ -106,14 +85,7 @@ Em um heap, os elementos são organizados em uma estrutura de árvore binária c
 <div align="justify">
 Aqui estão os detalhes de como a heap é implementada no código:
 
-1. **Representação da Árvore:** Um vetor é utilizado para representar a árvore binária completa. Se um elemento está na posição <code>'i'</code> no vetor, então seus filhos estão nas posições <code>2 * i + 1</code> e <code>2 * i + 2</code>, e seu pai está na posição <code>(i - 1) / 2.</code>
-
-2. **Adição de Elementos:** Quando um novo elemento é adicionado à heap, ele é inserido na próxima posição disponível no vetor (no final do vetor). Depois disso, o elemento é movido para cima na árvore (sift up) até que esteja em uma posição onde a propriedade da heap seja mantida.
-
-3. **Remoção de Elementos:** Ao remover o elemento de menor valor (para um min heap), o último elemento do vetor é movido para a posição do elemento removido. Então, esse elemento é movido para baixo na árvore (sift down) até que esteja em uma posição onde a propriedade da heap seja mantida.
-
-4. **Manutenção da Propriedade da Heap:** Durante as operações de adição e remoção de elementos, a propriedade da heap é mantida através das operações de sift up e sift down. Para um min heap, a propriedade da heap é que o valor de um nó deve ser menor ou igual aos valores de seus filhos. Para um max heap, a propriedade da heap é que o valor de um nó deve ser maior ou igual aos valores de seus filhos.
-</div>
+1. **Representação da Árvore:** 
 
 # 🔬 Experimentação 
 
