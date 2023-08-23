@@ -89,17 +89,60 @@ No entanto, o encadeamento (como o método de tratamento de colisões) ajuda a r
 
 </div>
 
-## Heap
+## **Heap**
 
+### 1. Representação da Árvore
 <div align="justify">
-Em um heap, os elementos são organizados em uma estrutura de árvore binária completa, onde cada nó tem até dois filhos. No código proposto, optou-se por utilizar um vetor <code>(std::vector)</code> para armazenar os elementos da heap, já que é uma representação comum e eficiente para uma árvore binária completa.
+
+Uma das coisas mais notáveis sobre a implementação de uma heap é que, embora represente uma árvore binária, ela é armazenada como um vetor. Esta representação eficiente é possível graças à relação estruturada entre um nó e seus filhos e pai:
+
+- Pai de um índice `i`: `(i - 1) / 2`
+- Filho esquerdo de um índice `i`: `2i + 1`
+- Filho direito de um índice `i`: `2i + 2`
+
+Usando essa representação, é possível evitar o uso explícito de nodos e ponteiros, tornando a estrutura de dados mais compacta e o acesso aos nodos extremamente rápido.
+
+Na implementação atual as funções auxiliares `left_child_index`, `right_child_index`, e `parent_index` são funções que ajudam a localizar os índices do filho esquerdo, filho direito e pai de um nó dado, respectivamente. Como a heap é implementada usando um vetor, essas funções usam cálculos simples para determinar os índices.
+
 </div>
 
-### Implementação da Heap:
+### 2. Inserção e Remoção
 <div align="justify">
-Aqui estão os detalhes de como a heap é implementada no código:
 
-1. **Representação da Árvore:** 
+Ao inserir um novo elemento, você o adiciona ao final da heap (ou seja, ao final do vetor `elements`) e, em seguida, ajusta sua posição através da função `heapify_up()`. Essa função verifica se o elemento inserido é menor que seu pai. Se for, eles são trocados, e o processo continua até que a propriedade da heap seja restaurada.
+
+Além disso, como você deseja manter apenas os top-k elementos, verifica se o tamanho da heap excede k após a inserção. Se exceder, o menor elemento (a raiz) é removido, o último elemento é movido para a raiz e a função `heapify_down()` é chamada para restaurar a propriedade da heap.
+
+> `heapify_down()`: Essa função é usada após a remoção do menor elemento. Ela verifica se algum dos filhos do nó atual é menor que o próprio nó. Em caso afirmativo, troca o nó com seu filho menor e repete o processo até que a propriedade da heap seja restaurada.
+
+</div>
+
+### 3. Manutenção da Propriedade da Heap
+<div align="justify">
+
+A propriedade fundamental da heap implementada (min-heap) é que, para qualquer nó `i`, o valor em i é menor ou igual aos valores de seus filhos. Esta propriedade é mantida por duas funções principais: `heapify_up()` e `heapify_down()`.
+
+Ao final a função `get_top_k()` simplesmente retorna o vetor `elements`, que contém os top-k elementos em ordem de heap (não necessariamente em ordem estritamente crescente ou decrescente).
+
+### 4. Complexidade
+
+- Inserção: `O(log n)`
+  - Adicionar o elemento ao final do vetor: Isso é uma operação `O(1)` na média. Ocasionalmente, pode ser `O(n)` quando o vetor precisa ser redimensionado, mas, na média, inserir no final de um vetor dinâmico (como std::vector) é constante.
+  - `heapify_up`: No pior caso, este processo pode ter que percorrer toda a altura da árvore, que para uma árvore binária completa (como é o caso da nossa heap) é `O(logn)`.
+
+- Remoção: `O(log n)` 
+  - Remover a raiz e colocar o último elemento no lugar dela: Isso é `O(1)`.
+  - `heapify_down`: Semelhante ao `heapify_up`, no pior caso, pode percorrer toda a altura da árvore, ou seja, `O(logn)`.
+
+- Buscar o menor: `O(1)` 
+  - Como a menor elemento (em uma min-heap) é sempre a raiz, buscar por ele é uma operação `O(1)`.
+
+- Manutenção (heapify): `O(log n)` 
+  - Como discutido, heapify_up e heapify_down são ambos operações `O(logn)` no pior caso, já que, no máximo, eles percorrem a altura da árvore.
+
+É importante notar que os elementos retornados por `get_top_k()` estão ***na ordem da heap** e não necessariamente em ordem estrita. Se fosse necessário obter os k elementos mais frequentes em ordem, seria necessário fazer mais processamentos (como ordenar os elementos antes de retornar).
+
+</div>
 
 # 🔬 Experimentação 
 
@@ -115,28 +158,22 @@ Nesta seção, apresentamos os resultados de experimentos envolvendo as operaç�
 <p align="center">
 <em>Imagem 1: Saída no terminal para os top 20 elementos. </em>
 </p>
-
-<div align="justify">
-	
-Em resumo, 
-
-</div>
 	
 # 🎯 Conclusão 
 
 <div align="justify">
 	
-O programa desenvolvido utiliza duas estruturas de dados principais, a Hash e a Heap, para encontrar e imprimir os k elementos com as maiores frequências em uma coleção de dados. Aqui está uma revisão das abordagens e como as duas estruturas de dados foram usadas:
+O programa desenvolvido demonstra a poderosa combinação de duas estruturas de dados distintas e suas sinergias: a tabela hash e a heap.
 
-**Hash:** Usou-se um mapa desordenado <code>(std::unordered_map)</code> para contar a frequência de cada palavra no texto. O mapa desordenado permite armazenar pares chave-valor, onde a chave é a palavra e o valor é a frequência da palavra. Este mapa é usado como uma tabela de dispersão (hash) que ajuda a armazenar e acessar os elementos de maneira eficiente. Utilizamos uma função hash interna do std::unordered_map para calcular o valor hash das palavras, o que ajuda a distribuir os elementos na tabela. As colisões, que ocorrem quando duas ou mais palavras têm o mesmo valor hash, são tratadas pelo mapa desordenado usando encadeamento separado.
+A tabela hash serve como um meio eficaz de contabilizar a frequência de palavras de forma quase instantânea. Cada palavra serve como uma chave e sua frequência é o valor associado. Devido à natureza da tabela hash, inserir e buscar palavras são operações que, em média, ocorrem em tempo constante O(1), tornando essa estrutura extremamente eficiente para o processo de contagem.
 
-**Heap:** Utilizou-se um vetor <code>(std::vector)</code> para implementar uma heap de forma personalizada. A heap é uma estrutura de árvore binária completa onde cada nó tem até dois filhos. O vetor é usado para representar essa árvore, onde cada elemento tem um pai na posição <code>(i - 1) / 2</code> e filhos nas posições <code>2 * i + 1</code> e <code>2* i + 2</code>. No programa, usou-se o vetor para manter os k elementos com maiores frequências sem ordená-los automaticamente. Adicionamos e removemos elementos com base em sua frequência sem manter automaticamente a propriedade da heap.
+Entretanto, quando se trata de identificar os "top-k" elementos, ou seja, as palavras mais frequentes, uma tabela hash por si só não seria suficiente. Aqui entra o papel da heap, especificamente uma min-heap. Ela nos permite manter uma coleção de tamanho fixo (k) dos elementos mais frequentes enquanto processamos cada palavra. Adições e remoções são eficientes com complexidade O (logk), e sempre temos acesso ao elemento de menor frequência em O(1), o que facilita a decisão de quando remover ou adicionar um novo elemento.
 
-**Processamento:** Primeiro, lemos a coleção de arquivos e processamos o texto para tokenizar as palavras e atualizar a tabela de dispersão (hash) com as frequências das palavras. Durante esse processo, tratamos as "stop words" e removemos os símbolos de pontuação. Em seguida, preenchemos o vetor (heap personalizada) com os primeiros k elementos do mapa desordenado. Para cada elemento restante no mapa desordenado, comparamos sua frequência com a menor frequência no vetor. Se a frequência do novo elemento for maior do que a menor frequência no vetor, removemos o elemento de menor frequência e inserimos o novo elemento.
+A combinação dessas duas estruturas garante que, ao processar uma grande coleção de palavras, o programa consiga, em tempo real, manter um registro das palavras mais frequentes. No final desse processamento, a heap contém exatamente o que precisamos: as k palavras mais frequentes.
 
-**Ordenação e Impressão:** Após adicionar e remover elementos no vetor, ordenamos o vetor em ordem crescente de frequência utilizando a função std::sort. Isso garante que os elementos sejam impressos em ordem crescente de frequência. Em seguida, imprimimos os k elementos com maiores frequências e suas respectivas frequências.
+Em termos de complexidade, as operações individuais de ambas as estruturas são eficientes. O desafio real surge na interação entre elas. Ao processar cada palavra, há uma busca na tabela hash (que é rápida) e possivelmente uma inserção ou remoção na heap. Em termos práticos, o desempenho ainda é bastante eficiente, pois a heap tem um tamanho fixo de "k", e as operações na tabela hash são, na média, constantes.
 
-No geral, o programa combina eficientemente o uso da Hash para contar a frequência das palavras e a Heap personalizada para manter a lista dos k elementos com maiores frequências. A ordenação final e a impressão são feitas para atender aos requisitos específicos do problema.
+Concluindo, a interação harmoniosa entre a tabela hash e a heap neste programa é um exemplo clássico de como diferentes estruturas de dados podem ser combinadas para criar soluções mais eficientes e elegantes para problemas complexos. Em nossa aplicação, conseguimos contabilizar palavras e identificar as mais frequentes de maneira otimizada, garantindo escalabilidade e eficiência no processamento de grandes conjuntos de dados.
 
 </div>
 
