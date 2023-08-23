@@ -39,9 +39,9 @@ Esse algoritmo deve ser uma combinação eficiente do uso de hash para contar a 
 
 # 💡 Solução do Problema 
 
-## Hash
+## **Hash**
 
-### Função Hash
+### 1. Função Hash
 
 <div align="justify">
 
@@ -57,21 +57,35 @@ size_t HashTable::hash(const std::string &key) const {
 }
 ```
 
-2. **Tratamento de Colisões:** A colisão é tratada usando **Encadeamento**. Cada índice na tabela hash armazena uma lista (neste caso, um `std::vector`) de pares chave-valor. Se duas chaves diferentes tiverem o mesmo valor hash, elas serão armazenadas na mesma posição da tabela, mas em posições diferentes do vetor. Se a chave não existe, ela é adicionada com uma contagem de 1.
+</div>
 
-3. **Inserção:** Ao inserir uma nova chave:
-    - Primeiro, a função hash é usada para determinar o índice na tabela. 
-    - Se a chave já existe na posição correspondente, sua contagem/frequência é aumentada.
-    - Se a chave não existe, ela é adicionada com uma contagem de 1.
+### 2. Tratamento de Colisões
+<div align="justify">
 
-4. **Busca:** Para buscar a frequência de uma chave:
-    - A função hash é usada para determinar o índice na tabela. 
-    - A posição correspondente é verificada para encontrar a chave desejada e retornar sua contagem.
-    - Se a chave não é encontrada, a função retorna 0, indicando que a chave não foi inserida na tabela.
+ A colisão é tratada usando **Encadeamento**. Cada índice na tabela hash armazena uma lista (neste caso, um `std::vector`) de pares chave-valor. Se duas chaves diferentes tiverem o mesmo valor hash, elas serão armazenadas na mesma posição da tabela, mas em posições diferentes do vetor. Se a chave não existe, ela é adicionada com uma contagem de 1.
 
-5. **Complexidade:** Em teoria, a busca, inserção e exclusão em uma tabela hash têm uma complexidade de tempo médio de O(1). No entanto, no pior caso (quando todas as chaves colidem), a complexidade pode degradar para O(n), onde n é o número de chaves.
+</div>
 
-    No entanto, o encadeamento (como o método de tratamento de colisões) ajuda a reduzir o impacto das colisões. Na prática, se a função hash estiver bem projetada e a tabela hash tiver um bom tamanho (não muito pequeno em relação ao número de entradas), as operações tendem a permanecer muito rápidas.
+### 3. Inserção
+ Ao inserir uma nova chave:
+
+  - Primeiro, a função hash é usada para determinar o índice na tabela. 
+  - Se a chave já existe na posição correspondente, sua contagem/frequência é aumentada.
+  - Se a chave não existe, ela é adicionada com uma contagem de 1.
+
+### 4. Busca 
+Para buscar a frequência de uma chave:
+
+  - A função hash é usada para determinar o índice na tabela. 
+  - A posição correspondente é verificada para encontrar a chave desejada e retornar sua contagem.
+  - Se a chave não é encontrada, a função retorna 0, indicando que a chave não foi inserida na tabela.
+
+### 5. Complexidade 
+<div align="justify">
+
+Em teoria, a busca, inserção e exclusão em uma tabela hash têm uma complexidade de tempo médio de O(1). No entanto, no pior caso (quando todas as chaves colidem), a complexidade pode degradar para O(n), onde n é o número de chaves.
+
+No entanto, o encadeamento (como o método de tratamento de colisões) ajuda a reduzir o impacto das colisões. Na prática, se a função hash estiver bem projetada e a tabela hash tiver um bom tamanho (não muito pequeno em relação ao número de entradas), as operações tendem a permanecer muito rápidas.
 
 </div>
 
