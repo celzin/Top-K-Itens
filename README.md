@@ -242,9 +242,11 @@ const int TOP_K = 20;
 
 <div align="justify">
 
-Por fim, esse programa possui um arquivo Makefile que realiza todo o procedimento de compilação e execução. Para tanto, temos as seguintes diretrizes de execução:
+Por fim, esse programa possui um arquivo [`Makefile`](https://github.com/celzin/Top-K-Itens/blob/main/Makefile) e um [`CMakeLists`](https://github.com/celzin/Top-K-Itens/blob/main/CMakeLists.txt), os quais realizam todo o procedimento de compilação e execução. Para tanto, cabe ao usuário escolher o de sua preferência, porém se atente ao fato de que para cada um temos as seguintes diretrizes de execução:
 
 </div>
+
+### Makefile
 
 <table align="center">
   <tr>
@@ -265,6 +267,27 @@ Por fim, esse programa possui um arquivo Makefile que realiza todo o procediment
   </tr>
 </table>
 	
+### CMake
+
+<table align="center">
+  <tr>
+    <th>Comando</th>
+    <th>Função</th>
+  </tr>
+  <tr>
+    <td>cmake -B ./build</td>
+    <td>Cria as instâncias da pasta build necessárias para execução do programa</td>
+  </tr>
+  <tr>
+    <td>cmake --build ./build</td>
+    <td>Executa a compilação do programa utilizando o cmake, e o resultado vai para a pasta build</td>
+  </tr>
+  <tr>
+    <td>./build/app</td>
+    <td>Executa o programa da pasta build após a realização da compilação</td>
+  </tr>
+</table>
+
 # 📞 Contato
 
 <table align="center">
