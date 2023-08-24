@@ -160,20 +160,44 @@ Testando o funcionamento do programa para o **Top 20 palavras mais frequentes** 
 </p>
 	
 # 🎯 Conclusão 
+	
+## Tabela Hash
 
 <div align="justify">
-	
-O programa desenvolvido demonstra a poderosa combinação de duas estruturas de dados distintas e suas sinergias: a tabela hash e a heap.
 
-A tabela hash serve como um meio eficaz de contabilizar a frequência de palavras de forma quase instantânea. Cada palavra serve como uma chave e sua frequência é o valor associado. Devido à natureza da tabela hash, inserir e buscar palavras são operações que, em média, ocorrem em tempo constante `O(1)`, tornando essa estrutura extremamente eficiente para o processo de contagem.
+- A tabela hash mantém um registro de frequência de palavras. A função hash determina rapidamente onde uma palavra deve residir, tornando a inserção e a busca de uma palavra extremamente rápidas, ambas com uma complexidade média de `O(1)`.
 
-Entretanto, quando se trata de identificar os "top-k" elementos, ou seja, as palavras mais frequentes, uma tabela hash por si só não seria suficiente. Aqui entra o papel da heap, especificamente uma min-heap. Ela nos permite manter uma coleção de tamanho fixo (k) dos elementos mais frequentes enquanto processamos cada palavra. Adições e remoções são eficientes com complexidade `O (logk)`, e sempre temos acesso ao elemento de menor frequência em `O(1)`, o que facilita a decisão de quando remover ou adicionar um novo elemento.
+- As colisões, que ocorrem quando duas palavras diferentes têm o mesmo índice, são tratadas por meio do endereçamento aberto.
 
-A combinação dessas duas estruturas garante que, ao processar uma grande coleção de palavras, o programa consiga, em tempo real, manter um registro das palavras mais frequentes. No final desse processamento, a heap contém exatamente o que precisamos: as k palavras mais frequentes.
+- O fator de carga monitora a eficiência da tabela. Se muitos slots estiverem ocupados, a tabela é redimensionada para manter a complexidade operacional desejada.
 
-Em termos de complexidade, as operações individuais de ambas as estruturas são eficientes. O desafio real surge na interação entre elas. Ao processar cada palavra, há uma busca na tabela hash (que é rápida) e possivelmente uma inserção ou remoção na heap. Em termos práticos, o desempenho ainda é bastante eficiente, pois a heap tem um tamanho fixo de "k", e as operações na tabela hash são, na média, constantes.
+</div>
 
-Concluindo, a interação harmoniosa entre a tabela hash e a heap neste programa é um exemplo clássico de como diferentes estruturas de dados podem ser combinadas para criar soluções mais eficientes e elegantes para problemas complexos. Em nossa aplicação, conseguimos contabilizar palavras e identificar as mais frequentes de maneira otimizada, garantindo escalabilidade e eficiência no processamento de grandes conjuntos de dados.
+## Heap (Min-Heap)
+
+<div align="justify">
+
+- A heap é uma árvore binária onde a raiz é sempre o elemento mínimo, no nosso caso, a palavra com a menor frequência.
+
+- Adicionar um elemento ou remover o elemento raiz da heap tem uma complexidade de `O(logk)`, onde k é o tamanho da heap.
+
+- Esta estrutura é usada para manter as palavras mais frequentes. Ao combinar a tabela hash com a heap, somos capazes de rastrear rapidamente as palavras k mais frequentes sem percorrer toda a tabela.
+
+</div>
+
+## Funcionamento Geral e Custos Computacionais
+
+<div align="justify">
+
+- As palavras são primeiro normalizadas e depois passadas para a tabela hash para contagem.
+
+- Cada atualização na tabela hash leva a uma potencial atualização na heap.
+
+- A combinação de tabela hash e heap nos permite processar palavras e rastrear as palavras mais frequentes em tempo real com uma complexidade eficiente, aproveitando o melhor de ambas as estruturas.
+
+Em resumo, a tabela hash oferece inserção e busca rápidas a um custo de `O(1)` em média, enquanto a heap garante que possamos rastrear e apresentar as palavras k mais frequentes a um custo de `O(logk)` por operação.
+
+A interação entre a tabela hash e a heap nesta implementação cria um sistema robusto e eficiente. Ao combinar as forças de ambas as estruturas, o código consegue processar e categorizar palavras com uma eficiência impressionante, tanto em termos de tempo quanto de custos computacionais.
 
 </div>
 
