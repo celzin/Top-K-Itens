@@ -148,15 +148,15 @@ Ao final a função `get_top_k()` simplesmente retorna o vetor `elements`, que c
 
 <div align="justify">
 	
-Nesta seção, apresentamos os resultados de experimentos envolvendo as operações propostas.
+Testando o funcionamento do programa para o **Top 20 palavras mais frequentes** através da leitura dos arquivos [`input1.txt`](https://github.com/celzin/Top-K-Itens/blob/main/dataset/input1.txt) e [`input2.txt`](https://github.com/celzin/Top-K-Itens/blob/main/dataset/input2.txt) com o acervo de fornecidos pelo arquivo [`stopwords.txt`](https://github.com/celzin/Top-K-Itens/blob/main/dataset/stopwords.txt) obteve-se a seguinte saída no terminal.
 
 </div>
 
 <p align="center">
-<img src="imgs/" width="250"/> 
+<img src="imgs/terminal.png" width="250"/> 
 </p>
 <p align="center">
-<em>Imagem 1: Saída no terminal para os top 20 elementos. </em>
+<em>Imagem 1: Saída no terminal para os Top 20 elementos mais frequentes. </em>
 </p>
 	
 # 🎯 Conclusão 
@@ -165,9 +165,9 @@ Nesta seção, apresentamos os resultados de experimentos envolvendo as operaç�
 	
 O programa desenvolvido demonstra a poderosa combinação de duas estruturas de dados distintas e suas sinergias: a tabela hash e a heap.
 
-A tabela hash serve como um meio eficaz de contabilizar a frequência de palavras de forma quase instantânea. Cada palavra serve como uma chave e sua frequência é o valor associado. Devido à natureza da tabela hash, inserir e buscar palavras são operações que, em média, ocorrem em tempo constante O(1), tornando essa estrutura extremamente eficiente para o processo de contagem.
+A tabela hash serve como um meio eficaz de contabilizar a frequência de palavras de forma quase instantânea. Cada palavra serve como uma chave e sua frequência é o valor associado. Devido à natureza da tabela hash, inserir e buscar palavras são operações que, em média, ocorrem em tempo constante `O(1)`, tornando essa estrutura extremamente eficiente para o processo de contagem.
 
-Entretanto, quando se trata de identificar os "top-k" elementos, ou seja, as palavras mais frequentes, uma tabela hash por si só não seria suficiente. Aqui entra o papel da heap, especificamente uma min-heap. Ela nos permite manter uma coleção de tamanho fixo (k) dos elementos mais frequentes enquanto processamos cada palavra. Adições e remoções são eficientes com complexidade O (logk), e sempre temos acesso ao elemento de menor frequência em O(1), o que facilita a decisão de quando remover ou adicionar um novo elemento.
+Entretanto, quando se trata de identificar os "top-k" elementos, ou seja, as palavras mais frequentes, uma tabela hash por si só não seria suficiente. Aqui entra o papel da heap, especificamente uma min-heap. Ela nos permite manter uma coleção de tamanho fixo (k) dos elementos mais frequentes enquanto processamos cada palavra. Adições e remoções são eficientes com complexidade `O (logk)`, e sempre temos acesso ao elemento de menor frequência em `O(1)`, o que facilita a decisão de quando remover ou adicionar um novo elemento.
 
 A combinação dessas duas estruturas garante que, ao processar uma grande coleção de palavras, o programa consiga, em tempo real, manter um registro das palavras mais frequentes. No final desse processamento, a heap contém exatamente o que precisamos: as k palavras mais frequentes.
 
@@ -179,20 +179,24 @@ Concluindo, a interação harmoniosa entre a tabela hash e a heap neste programa
 
 # 🔄 Compilação e Execução 
 
-## Leitura de Arquivos
+## 1. Arquivos de Leitura
 
 <p align="justify">
 
-Primeiramente, para o correto funcionamento do programa é necessário incluir os arquivos preferencialmente nomeados de <code>inputN.data</code> dentro da pasta <code>dataset</code>, devendo ser alterado ou adicionado às condições da [linha 14](https://github.com/celzin/Top-K-Elementos/blob/main/src/main.cpp/#L14) da <code>main.cpp</code> no seguinte formato:
+O programa foi projetado para processar um conjunto de arquivos de texto (.txt) contidos na pasta [`dataset`](https://github.com/celzin/Top-K-Itens/tree/main/dataset). Então, para o correto funcionamento do programa:
+
+- Certifique-se de incluir os arquivos preferencialmente no formato <code>inputN.txt</code> dentro da pasta [<code>dataset</code>](https://github.com/celzin/Top-K-Itens/tree/main/dataset).
+-  Ateste que os arquivos de texto estejam no formato correto (por exemplo, .txt) e que não contenham caracteres inválidos ou não reconhecidos.
 
 </p>
 
-```c
-// Aqui, voce pode adicionar uma lista de arquivos a serem analisados
-   std::vector<std::string> files = { "./dataset/input1.txt", "./dataset/input2.txt", /*...*/ };
-```
+## 2. Stopwords
 
-## Execução
+O programa também faz uso de um arquivo [`stopwords.txt`](https://github.com/celzin/Top-K-Itens/blob/main/dataset/stopwords.txt). Este arquivo contém palavras que são comumente usadas, mas que geralmente são ignoradas ao processar texto (por exemplo, "e", "o", "de" etc.).
+
+  - Certifique-se de que o arquivo `stopwords.txt` esteja localizado no diretório [`dataset`](https://github.com/celzin/Top-K-Itens/tree/main/dataset).
+
+## 3. Execução
 
 <p align="justify">
 Por fim, esse programa possui um arquivo Makefile que realiza todo o procedimento de compilação e execução. Para tanto, temos as seguintes diretrizes de execução:
