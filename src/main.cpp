@@ -5,6 +5,7 @@
 #include "heap.hpp"
 
 const int TABLE_SIZE = 100000;
+// Aqui, é possivel alterar o valor de k, por exemplo, top 20 palavras
 const int TOP_K = 20;
 const std::string STOPWORDS_PATH = "dataset/stopwords.txt";
 const std::string DATASET_PATH = "dataset";

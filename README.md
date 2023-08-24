@@ -32,7 +32,7 @@ Sabendo-se disso, elabore uma solução em C/C++ que dado uma entrada:
 
 Ao final, a heap conterá os k elementos com maiores valores (frequências) da coleção de dados. Então, imprima-os em formato de tabela em ordem crescente juntamente com a quantidade de vezes em que aparecem. 
 
-Esse algoritmo deve ser uma combinação eficiente do uso de hash para contar a frequência dos elementos e heap para manter a lista dos k elementos com maiores valores. Sua complexidade, caso implementado adequadamente, é de O(nlogk), onde n é o tamanho da coleção de dado e k o número de itens mais relevantes.
+Esse algoritmo deve ser uma combinação eficiente do uso de hash para contar a frequência dos elementos e heap para manter a lista dos k elementos com maiores valores. Sua complexidade, caso implementado adequadamente, é de `O(nlogk)`, onde n é o tamanho da coleção de dado e k o número de itens mais relevantes.
  
 </div>
 
@@ -83,7 +83,7 @@ Para buscar a frequência de uma chave:
 ### 5. Complexidade 
 <div align="justify">
 
-Em teoria, a busca, inserção e exclusão em uma tabela hash têm uma complexidade de tempo médio de O(1). No entanto, no pior caso (quando todas as chaves colidem), a complexidade pode degradar para O(n), onde n é o número de chaves.
+Em teoria, a busca, inserção e exclusão em uma tabela hash têm uma complexidade de tempo médio de `O(1)`. No entanto, no pior caso (quando todas as chaves colidem), a complexidade pode degradar para `O(n)`, onde n é o número de chaves.
 
 No entanto, o encadeamento (como o método de tratamento de colisões) ajuda a reduzir o impacto das colisões. Na prática, se a função hash estiver bem projetada e a tabela hash tiver um bom tamanho (não muito pequeno em relação ao número de entradas), as operações tendem a permanecer muito rápidas.
 
@@ -148,7 +148,7 @@ Ao final a função `get_top_k()` simplesmente retorna o vetor `elements`, que c
 
 <div align="justify">
 	
-Testando o funcionamento do programa para o **Top 20 palavras mais frequentes** através da leitura dos arquivos [`input1.txt`](https://github.com/celzin/Top-K-Itens/blob/main/dataset/input1.txt) e [`input2.txt`](https://github.com/celzin/Top-K-Itens/blob/main/dataset/input2.txt) com o acervo de fornecidos pelo arquivo [`stopwords.txt`](https://github.com/celzin/Top-K-Itens/blob/main/dataset/stopwords.txt) obteve-se a seguinte saída no terminal.
+Testando o funcionamento do programa para o **Top 20 palavras mais frequentes** através da leitura dos arquivos [`input1.txt`](https://github.com/celzin/Top-K-Itens/blob/main/dataset/input1.txt) e [`input2.txt`](https://github.com/celzin/Top-K-Itens/blob/main/dataset/input2.txt) com o acervo de `stopwords` (palavras que são ignoradas ao processar o texto) fornecidos pelo arquivo [`stopwords.txt`](https://github.com/celzin/Top-K-Itens/blob/main/dataset/stopwords.txt) obteve-se a seguinte saída no terminal.
 
 </div>
 
@@ -181,26 +181,46 @@ Concluindo, a interação harmoniosa entre a tabela hash e a heap neste programa
 
 ## 1. Arquivos de Leitura
 
-<p align="justify">
+<div align="justify">
 
 O programa foi projetado para processar um conjunto de arquivos de texto (.txt) contidos na pasta [`dataset`](https://github.com/celzin/Top-K-Itens/tree/main/dataset). Então, para o correto funcionamento do programa:
 
 - Certifique-se de incluir os arquivos preferencialmente no formato <code>inputN.txt</code> dentro da pasta [<code>dataset</code>](https://github.com/celzin/Top-K-Itens/tree/main/dataset).
 -  Ateste que os arquivos de texto estejam no formato correto (por exemplo, .txt) e que não contenham caracteres inválidos ou não reconhecidos.
 
-</p>
+</div>
 
 ## 2. Stopwords
+
+<div align="justify">
 
 O programa também faz uso de um arquivo [`stopwords.txt`](https://github.com/celzin/Top-K-Itens/blob/main/dataset/stopwords.txt). Este arquivo contém palavras que são comumente usadas, mas que geralmente são ignoradas ao processar texto (por exemplo, "e", "o", "de" etc.).
 
   - Certifique-se de que o arquivo `stopwords.txt` esteja localizado no diretório [`dataset`](https://github.com/celzin/Top-K-Itens/tree/main/dataset).
 
-## 3. Execução
+</div>
 
-<p align="justify">
+## 3. Top K elementos
+
+<div align="justify">
+
+Para alterar o valor de k, para por exemplo, obter as Top 20 palavras mais frequentes basta alterar a seguinte [linha de código](https://github.com/celzin/Top-K-Itens/blob/main/src/main.cpp/#L8):
+
+```C
+// Aqui, é possivel alterar o valor de k, por exemplo, top 20 palavras
+const int TOP_K = 20;
+```
+
+</div>
+
+
+## 4. Execução
+
+<div align="justify">
+
 Por fim, esse programa possui um arquivo Makefile que realiza todo o procedimento de compilação e execução. Para tanto, temos as seguintes diretrizes de execução:
-</p>
+
+</div>
 
 <table align="center">
   <tr>
