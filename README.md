@@ -109,9 +109,9 @@ Na implementação atual as funções auxiliares `left_child_index`, `right_chil
 ### 2. Inserção e Remoção
 <div align="justify">
 
-Ao inserir um novo elemento, você o adiciona ao final da heap (ou seja, ao final do vetor `elements`) e, em seguida, ajusta sua posição através da função `heapify_up()`. Essa função verifica se o elemento inserido é menor que seu pai. Se for, eles são trocados, e o processo continua até que a propriedade da heap seja restaurada.
+Ao inserir um novo elemento, este é adicionado ao final da heap (ou seja, ao final do vetor `elements`) e, em seguida, ajusta sua posição através da função `heapify_up()`. Essa função verifica se o elemento inserido é menor que seu pai. Se for, eles são trocados, e o processo continua até que a propriedade da heap seja restaurada.
 
-Além disso, como você deseja manter apenas os top-k elementos, verifica se o tamanho da heap excede k após a inserção. Se exceder, o menor elemento (a raiz) é removido, o último elemento é movido para a raiz e a função `heapify_down()` é chamada para restaurar a propriedade da heap.
+Além disso, como deseja-se manter apenas os top-k elementos, verifica se o tamanho da heap excede k após a inserção. Se exceder, o menor elemento (a raiz) é removido, o último elemento é movido para a raiz e a função `heapify_down()` é chamada para restaurar a propriedade da heap.
 
 > `heapify_down()`: Essa função é usada após a remoção do menor elemento. Ela verifica se algum dos filhos do nó atual é menor que o próprio nó. Em caso afirmativo, troca o nó com seu filho menor e repete o processo até que a propriedade da heap seja restaurada.
 
@@ -133,9 +133,6 @@ Ao final a função `get_top_k()` simplesmente retorna o vetor `elements`, que c
 - Remoção: `O(log n)` 
   - Remover a raiz e colocar o último elemento no lugar dela: Isso é `O(1)`.
   - `heapify_down`: Semelhante ao `heapify_up`, no pior caso, pode percorrer toda a altura da árvore, ou seja, `O(logn)`.
-
-- Buscar o menor: `O(1)` 
-  - Como a menor elemento (em uma min-heap) é sempre a raiz, buscar por ele é uma operação `O(1)`.
 
 - Manutenção (heapify): `O(log n)` 
   - Como discutido, heapify_up e heapify_down são ambos operações `O(logn)` no pior caso, já que, no máximo, eles percorrem a altura da árvore.
