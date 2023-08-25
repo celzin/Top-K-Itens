@@ -1,7 +1,5 @@
 #include "hash_table.hpp"
 
-namespace fs = std::filesystem;
-
 std::string remove_em_dash(const std::string &input) {
     std::string result = input;
     size_t pos;
@@ -71,10 +69,18 @@ std::set<std::string> load_stopwords(const std::string &filename) {
 }
 
 void process_files(const std::string &directory, const std::set<std::string> &stopwords, HashTable &hash_table) {
-    for (const auto &entry : fs::directory_iterator(directory)) {
-        std::string filename = entry.path().filename().string();
-        if (filename != "stopwords.txt") {
-            std::ifstream input_file(entry.path());
+    DIR *dir = opendir(directory.c_str());
+    if (!dir) {
+        std::cerr << "Error opening directory: " << directory << std::endl;
+        return;
+    }
+
+    struct dirent *entry;
+    while ((entry = readdir(dir)) != nullptr) {
+        std::string filename = entry->d_name;
+        if (filename != "." && filename != ".." && filename != "stopwords.txt") {
+            std::string full_path = directory + "/" + filename;
+            std::ifstream input_file(full_path);
             std::string line;
             while (std::getline(input_file, line)) {
                 std::istringstream iss(line);
@@ -90,6 +96,7 @@ void process_files(const std::string &directory, const std::set<std::string> &st
             input_file.close();
         }
     }
+    closedir(dir);
 }
 
 std::set<std::string> initialize_stopwords(const std::string &path) {

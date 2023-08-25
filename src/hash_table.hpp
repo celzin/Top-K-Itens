@@ -11,7 +11,7 @@
 #include <sstream>  
 #include <regex>
 #include <algorithm>
-#include <filesystem>
+#include <dirent.h>
 #include <cctype>
 
 class HashTable {
