@@ -62,7 +62,7 @@ size_t HashTable::hash(const std::string &key) const {
 ### 2. Tratamento de Colisões
 <div align="justify">
 
- A colisão é tratada usando **Encadeamento**. Cada índice na tabela hash armazena uma lista (neste caso, um `std::vector`) de pares chave-valor. Se duas chaves diferentes tiverem o mesmo valor hash, elas serão armazenadas na mesma posição da tabela, mas em posições diferentes do vetor. Se a chave não existe, ela é adicionada com uma contagem de 1.
+ A colisão é tratada usando **encadeamento**. Cada índice na tabela hash armazena uma lista (neste caso, um `std::vector`) de pares chave-valor. Se duas chaves diferentes tiverem o mesmo valor hash, elas serão armazenadas na mesma posição da tabela, mas em posições diferentes do vetor. Se a chave não existe, ela é adicionada com uma contagem de 1.
 
 </div>
 
@@ -100,9 +100,7 @@ Uma das coisas mais notáveis sobre a implementação de uma heap é que, embora
 - Filho esquerdo de um índice `i`: `2i + 1`
 - Filho direito de um índice `i`: `2i + 2`
 
-Usando essa representação, é possível evitar o uso explícito de nodos e ponteiros, tornando a estrutura de dados mais compacta e o acesso aos nodos extremamente rápido.
-
-Na implementação atual as funções auxiliares `left_child_index`, `right_child_index`, e `parent_index` são funções que ajudam a localizar os índices do filho esquerdo, filho direito e pai de um nó dado, respectivamente. Como a heap é implementada usando um vetor, essas funções usam cálculos simples para determinar os índices.
+Na implementação exposta as funções auxiliares `left_child_index`, `right_child_index`, e `parent_index` são funções que ajudam a localizar os índices do filho esquerdo, filho direito e pai de um nó dado, respectivamente. Como a heap é implementada usando um vetor, essas funções usam cálculos simples para determinar os índices.
 
 </div>
 
@@ -137,7 +135,7 @@ Ao final a função `get_top_k()` simplesmente retorna o vetor `elements`, que c
 - Manutenção (heapify): `O(log n)` 
   - Como discutido, heapify_up e heapify_down são ambos operações `O(logn)` no pior caso, já que, no máximo, eles percorrem a altura da árvore.
 
-É importante notar que os elementos retornados por `get_top_k()` estão ***na ordem da heap** e não necessariamente em ordem estrita. Se fosse necessário obter os k elementos mais frequentes em ordem, seria necessário fazer mais processamentos (como ordenar os elementos antes de retornar).
+É importante notar que os elementos retornados por `get_top_k()` estão **na ordem da heap** e não necessariamente em ordem estrita. Se fosse necessário obter os k elementos mais frequentes em ordem, seria necessário fazer mais processamentos (como ordenar os elementos antes de retornar).
 
 </div>
 
@@ -192,7 +190,7 @@ Testando o funcionamento do programa para o **Top 20 palavras mais frequentes** 
 
 - A combinação de tabela hash e heap nos permite processar palavras e rastrear as palavras mais frequentes em tempo real com uma complexidade eficiente, aproveitando o melhor de ambas as estruturas.
 
-Em resumo, a tabela hash oferece inserção e busca rápidas a um custo de `O(1)` em média, enquanto a heap garante que possamos rastrear e apresentar as palavras k mais frequentes a um custo de `O(logk)` por operação.
+Em resumo, a tabela hash oferece inserção e busca rápidas a um custo interessante, enquanto a heap garante que possamos rastrear e apresentar as palavras k mais frequentes a um custo de `O(logk)` por operação.
 
 A interação entre a tabela hash e a heap nesta implementação cria um sistema robusto e eficiente. Ao combinar as forças de ambas as estruturas, o código consegue processar e categorizar palavras com uma eficiência impressionante, tanto em termos de tempo quanto de custos computacionais.
 
